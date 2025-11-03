@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from './Screens/HomeScreen';
-import PatientsScreen from './Screens/PatientsScreen';
+import PatientInfoScreen from './Screens/PatientInfoScreen';
 import PatientListScreen from './Screens/PatientListScreen';
 import AddPatientScreen from './Screens/AddPatientScreen';
 
@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="HomeMain" component={HomeScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="Back" component={HomeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
     </Stack.Navigator>
   );
@@ -32,8 +32,8 @@ return (
         name="Home" 
         component={HomeStack}/>
       <Tab.Screen 
-        name="Patients" 
-        component={PatientsScreen} />
+        name="Patient" 
+        component={PatientInfoScreen} />
       <Tab.Screen 
         name="Patient List" 
         component={PatientListScreen} />

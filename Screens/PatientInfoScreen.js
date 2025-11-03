@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function PatientsScreen() {
+export default function PatientInfoScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Patients</Text>
+      <Text style={styles.title}>Patient Information</Text>
       <StatusBar style="auto" />
     </View>
   );
