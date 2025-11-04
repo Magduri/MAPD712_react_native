@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useState } from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,12 +8,9 @@ import { KeyboardAvoidingView, Platform } from 'react-native';
 
 
 
+const AddPatientScreen = ({ navigation }) => {
 
-import React from 'react';
-
-export default function AddPatientScreen({ navigation }) {
-
-  const [photo, setPhoto] = useState(null);
+  // const [photo, setPhoto] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
@@ -37,14 +34,15 @@ export default function AddPatientScreen({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity style={styles.photoCircle} onPress={() => alert('Camera / Gallery')}>
+      <ScrollView contentContainerStyle={styles.scrollContent}
+      style = {{backgroundColor: '#87d7f7ff'}}>
+        {/* <TouchableOpacity style={styles.photoCircle} onPress={() => alert('Camera / Gallery')}>
           {photo ? (
             <Image source={{ uri: photo }} style={styles.photoImage} />
           ) : (
             <Ionicons name="camera" size={35} color="#87d7f7ff" />
           )}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <View style={styles.form}>
           <Text>First Name:</Text>
@@ -99,9 +97,10 @@ export default function AddPatientScreen({ navigation }) {
           <TouchableOpacity style={[styles.button, styles.saveButton]}
             onPress={() => {
               const newPatient = {
+                // photo,
                 firstName,
                 lastName,
-                dateOfBirth,
+                dateOfBirth: dateOfBirth.toISOString(),
                 gender,
                 phoneNumber,
                 email,
@@ -124,9 +123,9 @@ export default function AddPatientScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContent: {
     //flex: 1,
-    backgroundColor: '#87d7f7ff',
+    //backgroundColor: '#87d7f7ff',
     alignItems: 'center',
     paddingVertical: 20,
     //justifyContent: 'center',
@@ -244,3 +243,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default AddPatientScreen;

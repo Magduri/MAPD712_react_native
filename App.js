@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './Screens/HomeScreen';
 import PatientInfoScreen from './Screens/PatientInfoScreen';
 import PatientListScreen from './Screens/PatientListScreen';
-import AddPatientScreen from './Screens/AddPatientScreen';
+import AddPatientScreen from './Screens/AddPatientScreen'; // Correct the casing to match the actual file name
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -19,6 +19,7 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="Back" component={HomeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
+      <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient'}} />
     </Stack.Navigator>
   );
 }
@@ -31,9 +32,9 @@ return (
       <Tab.Screen 
         name="Home" 
         component={HomeStack}/>
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Patient" 
-        component={PatientInfoScreen} />
+        component={PatientInfoScreen} /> */}
       <Tab.Screen 
         name="Patient List" 
         component={PatientListScreen} />
