@@ -95,23 +95,47 @@ const AddPatientScreen = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.saveButton]}
-            onPress={() => {
+            onPress={async () => {
+              //prepare patient data
               const newPatient = {
                 // photo,
                 firstName,
                 lastName,
-                dateOfBirth: dateOfBirth.toISOString(),
+                dob: dateOfBirth.toISOString(),
                 gender,
-                phoneNumber,
+                phone:phoneNumber,
                 email,
                 address,
               };
-              console.log(newPatient);
+              // Send the patient data to the backend
+              try {
+                const response = await fetch('https://127.0.0.1:3000/patients', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(newPatient),
+                });
+                //check response status
+                if (response.ok) {
+                  const savedPatient = await response.json();
+                  console.log('Patient saved successfully:', savedPatient);
 
-              navigation.navigate('PatientInfo', { patient: newPatient });
+                  //navigate to patientInfo screen with the saved patient data
+                  navigation.navigate('PatientInfo', { patient: savedPatient });  
+                } else {
+                  const errorData = await response.text();
+                  console.error('Error saving patient:', errorData);
+                  alert('Failed to save patient. Please try again.');
+                }
+              } catch (error) {
+                console.error('Fetch error:', error);
+                alert('Cannot reach server. Make sure the backend is running.');
+              }
             }}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
+          
           <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => alert('Action cancelled')}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
