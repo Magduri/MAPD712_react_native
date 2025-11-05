@@ -1,10 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+
 import { NavigationContainer } from '@react-navigation/native'; 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
+
 
 import HomeScreen from './Screens/HomeScreen';
 import PatientInfoScreen from './Screens/PatientInfoScreen';
@@ -17,8 +15,17 @@ const Stack = createStackNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="<- Back" component={HomeScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="Back" component={HomeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
+      <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient'}} />
+    </Stack.Navigator>
+  );
+}
+
+function PatientStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="PatientList" component={PatientListScreen} options={{title: 'Patients List'}} />
       <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient'}} />
     </Stack.Navigator>
   );
@@ -32,12 +39,9 @@ return (
       <Tab.Screen 
         name="Home" 
         component={HomeStack}/>
-      {/* <Tab.Screen 
-        name="Patient" 
-        component={PatientInfoScreen} /> */}
       <Tab.Screen 
-        name="Patient List" 
-        component={PatientListScreen} />
+        name="Patients List" 
+        component={PatientStack} />
     </Tab.Navigator>
     </NavigationContainer>
   );
@@ -46,11 +50,3 @@ return (
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#87d7f7ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

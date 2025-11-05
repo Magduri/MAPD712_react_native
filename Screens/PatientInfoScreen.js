@@ -1,71 +1,62 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-const PatientInfoScreen = ({route,navigation}) => {
-  const { patient } = route.params?.patient;
-if (!patient) {
-  return (
-    <View style={styles.container}>
-      <Text>No patient data available.</Text>
-    </View>
-  );
-}
+const PatientInfoScreen = ({ route, navigation }) => {
+  const { patient } = route.params;
+  if (!patient) {
+    return (
+      <View style={styles.container}>
+        <Text>No patient data available.</Text>
+      </View>
+    );
+  }
 
   const dob = new Date(patient.dob); // convert string back to Date
 
-navigation.navigate('PatientInfo', { patient: newPatient });
-navigation.navigate('PatientInfo', { patient: item });
-
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()} >
-  <Text style={{ color: '#1976d2' }}>← Back</Text>
-</TouchableOpacity>
 
-     
-        {/* <Text style={styles.title}>Patient Information</Text> */}
-        {/* <Image source={{ uri: photo }} style={styles.photo} /> */}
-         <View style={styles.form}>
-        <View style = {styles.row}>
+      {/* <Text style={styles.title}>Patient Information</Text> */}
+      {/* <Image source={{ uri: photo }} style={styles.photo} /> */}
+      <View style={styles.form}>
+        <View style={styles.row}>
           <Text style={styles.label}> First Name: </Text>
           <Text style={styles.value}> {patient.firstName}</Text>
         </View>
         <View style={styles.divider} />
 
-        <View style = {styles.row}>
+        <View style={styles.row}>
           <Text style={styles.label}> Last Name: </Text>
           <Text style={styles.value}> {patient.lastName}</Text>
         </View>
         <View style={styles.divider} />
 
-        <View style = {styles.row}>
-           <Text style={styles.label}>Date of Birth:</Text>
-        <Text style={styles.value}>
-          {`${(dob.getMonth() + 1).toString().padStart(2, '0')}/${
-            dob.getDate().toString().padStart(2, '0')
-          }/${dob.getFullYear()}`}
-        </Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Date of Birth:</Text>
+          <Text style={styles.value}>
+            {`${(dob.getMonth() + 1).toString().padStart(2, '0')}/${dob.getDate().toString().padStart(2, '0')
+              }/${dob.getFullYear()}`}
+          </Text>
         </View>
         <View style={styles.divider} />
 
-        <View style = {styles.row}>
+        <View style={styles.row}>
           <Text style={styles.label}> Gender: </Text>
           <Text style={styles.value}> {patient.gender}</Text>
         </View>
         <View style={styles.divider} />
 
-        <View style = {styles.row}>
+        <View style={styles.row}>
           <Text style={styles.label}> Phone: </Text>
           <Text style={styles.value}> {patient.phone}</Text>
         </View>
         <View style={styles.divider} />
-        <View style = {styles.row}>
+        <View style={styles.row}>
           <Text style={styles.label}> Email: </Text>
           <Text style={styles.value}> {patient.email}</Text>
         </View>
         <View style={styles.divider} />
-        <View style = {styles.row}>
+        <View style={styles.row}>
           <Text style={styles.label}> Address: </Text>
           <Text style={styles.value}> {patient.address}</Text>
         </View>

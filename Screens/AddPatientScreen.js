@@ -29,6 +29,49 @@ const AddPatientScreen = ({ navigation }) => {
     hideDatePicker();
   };
 
+  const handleSave = async () => {
+    if (!firstName || !lastName || !dateOfBirth || !gender || !phoneNumber || !email || !address) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    //prepare patient data
+    const newPatient = {
+      // photo,
+      firstName,
+      lastName,
+      dob: dateOfBirth.toISOString(),
+      gender,
+      phone: phoneNumber,
+      email,
+      address,
+    };
+    // Send the patient data to the backend
+    try {
+      const response = await fetch(`${BACKEND_URL}/patients`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPatient),
+      });
+      //check response status
+      if (response.ok) {
+        const savedPatient = await response.json();
+        console.log('Patient saved successfully:', savedPatient);
+
+        //navigate to patientInfo screen with the saved patient data
+        navigation.navigate('PatientInfo', { patient: savedPatient });
+      } else {
+        const errorData = await response.text();
+        console.error('Error saving patient:', errorData);
+        alert('Failed to save patient. Please try again.');
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      alert('Cannot reach server. Make sure the backend is running.');
+    }
+
+  }
 
 
   return (
@@ -37,7 +80,7 @@ const AddPatientScreen = ({ navigation }) => {
       style={{ flex: 1 }}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}
-      style = {{backgroundColor: '#87d7f7ff'}}>
+        style={{ backgroundColor: '#87d7f7ff' }}>
         {/* <TouchableOpacity style={styles.photoCircle} onPress={() => alert('Camera / Gallery')}>
           {photo ? (
             <Image source={{ uri: photo }} style={styles.photoImage} />
@@ -97,44 +140,7 @@ const AddPatientScreen = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.saveButton]}
-            onPress={async () => {
-              //prepare patient data
-              const newPatient = {
-                // photo,
-                firstName,
-                lastName,
-                dob: dateOfBirth.toISOString(),
-                gender,
-                phone:phoneNumber,
-                email,
-                address,
-              };
-              // Send the patient data to the backend
-              try {
-                const response = await fetch(`${BACKEND_URL}/patients`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(newPatient),
-                });
-                //check response status
-                if (response.ok) {
-                  const savedPatient = await response.json();
-                  console.log('Patient saved successfully:', savedPatient);
-
-                  //navigate to patientInfo screen with the saved patient data
-                  navigation.navigate('PatientInfo', { patient: savedPatient });  
-                } else {
-                  const errorData = await response.text();
-                  console.error('Error saving patient:', errorData);
-                  alert('Failed to save patient. Please try again.');
-                }
-              } catch (error) {
-                console.error('Fetch error:', error);
-                alert('Cannot reach server. Make sure the backend is running.');
-              }
-            }}>
+            onPress={async () => { handleSave }}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
 
