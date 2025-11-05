@@ -1,6 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 
 export default function HomeScreen({ navigation }) {
@@ -11,11 +10,7 @@ export default function HomeScreen({ navigation }) {
 
       <Text>Upcoming Appointments</Text>
       <Text>Recent Patients</Text>
-
-      <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('AddPatient')}>
-        <Ionicons name="add" size={30} color="white" />
-        </TouchableOpacity>
-<StatusBar style="auto" />
+      <FabButton onPress={() => navigation.navigate('AddPatient')} />
     </View>
   );
 }
@@ -31,22 +26,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-  },
-  fab: {
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    alignSelf: 'flex-end',
-    bottom: 30,
-    right: 30,
-    backgroundColor: '#7bcef8ff',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: 'white',
-    shadowOffset: { width: 4, height: 2 },
-    shadowOpacity: 0.7,
-    shadowRadius: 3,
-    elevation: 5,
   },
 });
