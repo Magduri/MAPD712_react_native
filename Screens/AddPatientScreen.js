@@ -6,6 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
+import { BACKEND_URL } from '../config';
+
 
 
 const AddPatientScreen = ({ navigation }) => {
@@ -109,7 +111,7 @@ const AddPatientScreen = ({ navigation }) => {
               };
               // Send the patient data to the backend
               try {
-                const response = await fetch('https://127.0.0.1:3000/patients', {
+                const response = await fetch(`${BACKEND_URL}/patients`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -135,7 +137,7 @@ const AddPatientScreen = ({ navigation }) => {
             }}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => alert('Action cancelled')}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 const PatientInfoScreen = ({route,navigation}) => {
   const { patient } = route.params;
-  const dob = new Date(patient.dateOfBirth); // convert string back to Date
+  const dob = new Date(patient.dob); // convert string back to Date
 
 
   return (
@@ -25,8 +25,12 @@ const PatientInfoScreen = ({route,navigation}) => {
         <View style={styles.divider} />
 
         <View style = {styles.row}>
-          <Text style={styles.label}> Date of Birth: </Text>
-          <Text style={styles.value}> {`${(dob.getMonth() + 1).toString().padStart(2, '0')}/${dob.getDate().toString().padStart(2, '0')}/${dob.getFullYear()}`}</Text>
+           <Text style={styles.label}>Date of Birth:</Text>
+        <Text style={styles.value}>
+          {`${(dob.getMonth() + 1).toString().padStart(2, '0')}/${
+            dob.getDate().toString().padStart(2, '0')
+          }/${dob.getFullYear()}`}
+        </Text>
         </View>
         <View style={styles.divider} />
 
@@ -38,7 +42,7 @@ const PatientInfoScreen = ({route,navigation}) => {
 
         <View style = {styles.row}>
           <Text style={styles.label}> Phone: </Text>
-          <Text style={styles.value}> {patient.phoneNumber}</Text>
+          <Text style={styles.value}> {patient.phone}</Text>
         </View>
         <View style={styles.divider} />
         <View style = {styles.row}>
