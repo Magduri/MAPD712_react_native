@@ -2,12 +2,27 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 const PatientInfoScreen = ({route,navigation}) => {
-  const { patient } = route.params;
+  const { patient } = route.params?.patient;
+if (!patient) {
+  return (
+    <View style={styles.container}>
+      <Text>No patient data available.</Text>
+    </View>
+  );
+}
+
   const dob = new Date(patient.dob); // convert string back to Date
+
+navigation.navigate('PatientInfo', { patient: newPatient });
+navigation.navigate('PatientInfo', { patient: item });
 
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()} >
+  <Text style={{ color: '#1976d2' }}>← Back</Text>
+</TouchableOpacity>
+
      
         {/* <Text style={styles.title}>Patient Information</Text> */}
         {/* <Image source={{ uri: photo }} style={styles.photo} /> */}

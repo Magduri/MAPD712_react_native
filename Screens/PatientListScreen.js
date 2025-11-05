@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
+import ViewButton from '../Components/ViewButton';
 
 
 import { BACKEND_URL } from '../config';  
@@ -11,35 +12,44 @@ const PatientListScreen = ({ navigation }) => {
 
 const [patients, setPatients] = useState([]);
 
+
 useEffect(() => {
   const fetchPatients = async () => {
+    
     try {
       const response = await fetch(`${BACKEND_URL}/patients`);
-      const data = await response.json();
+      if (response.ok) {
+       const data = await response.json();
       setPatients(data);
+      } else {
+        console.error('Failed to fetch patients:', response.status);
+      }
+      
     } catch (error) {
       console.error('Error fetching patients:', error);
-    }
+    } 
   };
 
   fetchPatients();
 }, []);
 
 
+const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.patientName}>{item.firstName} {item.lastName}</Text>
+      <ViewButton
+        onPress={() => navigation.navigate('PatientInfo', { patient: item })}
+      />
+    </View>
+  );
+
   return (
-    <View style={styles.container}>
-  
+    <View style={styles.container}> 
       <FlatList //render patient list
         data={patients}
         keyExtractor={(item) => item._id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-          style={styles.patientItem}
-          onPress={() => navigation.navigate('PatientInfo', { patient: item })}>
-      <Text>{item.firstName} {item.lastName}</Text>
-      <Text>{item.gender} | {item.phone}</Text>
-    </TouchableOpacity>
-        )}
+        renderItem={renderItem}
+        contentContainerStyle={{ padding: 16 }}
       />
       <StatusBar style="auto" />
     </View>
@@ -48,28 +58,23 @@ useEffect(() => {
 
 
 const styles = StyleSheet.create({
- container: {
+  container: {
     flex: 1,
     backgroundColor: '#87d7f7ff',
-    paddingTop: 50, 
-    //alignItems: 'center',
-    //justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 100,
   },
-  patientItem: {
+  itemContainer: {
+    flexDirection: 'row',          // name and button side by side
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
     backgroundColor: 'white',
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 5,
-    marginHorizontal: 12,
+    marginBottom: 8,
+    borderRadius: 8,
   },
   patientName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  patientDetails: {
-    fontSize: 14,
-    color: '#555',
-    marginTop: 6,
+    fontSize: 16,
   },
 });
 
