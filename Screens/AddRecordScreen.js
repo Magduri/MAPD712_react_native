@@ -16,16 +16,14 @@ const AddRecordScreen = ({ route, navigation }) => {
         );
     }
 
-
     const [type, setType] = useState('');
     const [value, setValue] = useState('');
 
     const handleSave = async () => {
         if (!type || !value) {
-            Alert.alert('Validation', 'Please select a type and enter a value.');
+            Alert.alert('Validation Error', 'Please fill in all fields.');
             return;
         }
-
         // Save the record
         const newRecord = {
             patientId,
@@ -54,6 +52,8 @@ const AddRecordScreen = ({ route, navigation }) => {
             console.error('Fetch error:', error);
             Alert.alert('Error', 'Cannot reach server.');
         }
+
+        navigation.navigate('RecordDetails', { patient: patient, patientId: patientId, clinicaldata: { type, value } })
     };
 
     return (
@@ -88,6 +88,7 @@ const AddRecordScreen = ({ route, navigation }) => {
             <TouchableOpacity style={styles.saveButton}
                 onPress={async () => {
                     await handleSave();
+                    //navigation.navigate('RecordDetails', { patient: patient, patientId: patientId, clinicaldata: { type, value } });
                 }}>
                 <Text style={styles.saveButtonText}>Save Record</Text>
             </TouchableOpacity>
