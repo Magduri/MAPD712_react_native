@@ -9,39 +9,38 @@ import PatientInfoScreen from './Screens/PatientInfoScreen';
 import PatientListScreen from './Screens/PatientListScreen';
 import AddPatientScreen from './Screens/AddPatientScreen'; // Correct the casing to match the actual file name
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
-function HomeStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Back" component={HomeScreen} options={{headerShown: false}}/>
-      <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
-      <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient'}} />
-    </Stack.Navigator>
-  );
-}
-
-function PatientStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="PatientList" component={PatientListScreen} options={{title: 'Patients List'}} />
-      <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient'}} />
-    </Stack.Navigator>
-  );
-}
 
 export default function App() {
+
+  const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{title: 'Home'}}/>
+      <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
+      <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient Info'}} />
+    </Stack.Navigator>
+  );
+}
+
+const PatientStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="PatientListScreen" component={PatientListScreen} options={{title: 'Patients List'}} />
+      <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient Info'}} />
+      <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
+    </Stack.Navigator>
+  );
+}
   
 return (
   <NavigationContainer>
     <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen 
-        name="Home" 
-        component={HomeStack}/>
-      <Tab.Screen 
-        name="Patients List" 
-        component={PatientStack} />
+      <Tab.Screen name="HomeTab" component={HomeStack} options={{ title: "Home"}}/>
+      <Tab.Screen name="PatientsTab" component={PatientStack} options={{ title: "Patients List"}}/>
     </Tab.Navigator>
     </NavigationContainer>
   );

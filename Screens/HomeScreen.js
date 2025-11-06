@@ -9,8 +9,8 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.title}>Medicare!</Text>
       <StatusBar style="auto" />
 
-      <Text>Upcoming Appointments</Text>
-      <Text>Recent Patients</Text>
+      {/* <Text>Upcoming Appointments</Text>
+      <Text>Recent Patients</Text> */}
       <FabButton onPress={() => navigation.navigate('AddPatient')} />
     </View>
   );
@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'white',
   },
 });
 

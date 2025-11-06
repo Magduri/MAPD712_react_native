@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import ViewButton from '../Components/ViewButton';
+import FabButton from '../Components/FabButton';
 
 
 import { BACKEND_URL } from '../config';  
@@ -13,7 +15,7 @@ const PatientListScreen = ({ navigation }) => {
 const [patients, setPatients] = useState([]);
 
 
-useEffect(() => {
+//useEffect(() => {
   const fetchPatients = async () => {
     
     try {
@@ -30,8 +32,17 @@ useEffect(() => {
     } 
   };
 
-  fetchPatients();
-}, []);
+ // Refetch patients whenever the screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      fetchPatients();
+    }, [])
+  );
+
+//   fetchPatients();
+// }, []);
+
+
 
 
 const renderItem = ({ item }) => (
@@ -51,6 +62,7 @@ const renderItem = ({ item }) => (
         renderItem={renderItem}
         contentContainerStyle={{ padding: 16 }}
       />
+      <FabButton onPress={() => navigation.navigate('AddPatient')} />
       <StatusBar style="auto" />
     </View>
   );

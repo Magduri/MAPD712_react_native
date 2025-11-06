@@ -140,7 +140,9 @@ const AddPatientScreen = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.saveButton]}
-            onPress={async () => { handleSave }}>
+            onPress={async () => { await handleSave(); 
+              navigation.navigate('PatientList');
+            }}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
 
