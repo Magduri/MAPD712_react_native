@@ -8,6 +8,7 @@ import HomeScreen from './Screens/HomeScreen';
 import PatientInfoScreen from './Screens/PatientInfoScreen';
 import PatientListScreen from './Screens/PatientListScreen';
 import AddPatientScreen from './Screens/AddPatientScreen'; // Correct the casing to match the actual file name
+import AddRecordScreen from './Screens/AddRecordScreen';
 
 
 
@@ -22,6 +23,7 @@ const HomeStack = () => {
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{title: 'Home'}}/>
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
       <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient Info'}} />
+      <Stack.Screen name="AddRecord" component={AddRecordScreen} options={{title: 'Add Medical Record'}} />
     </Stack.Navigator>
   );
 }
@@ -32,6 +34,7 @@ const PatientStack = () => {
       <Stack.Screen name="PatientListScreen" component={PatientListScreen} options={{title: 'Patients List'}} />
       <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient Info'}} />
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
+      <Stack.Screen name="AddRecord" component={AddRecordScreen} options={{title: 'Add Medical Record'}} />
     </Stack.Navigator>
   );
 }

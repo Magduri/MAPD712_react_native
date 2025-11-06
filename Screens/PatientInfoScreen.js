@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+
+import { BACKEND_URL } from '../config';
 
 const PatientInfoScreen = ({ route, navigation }) => {
   const { patient } = route.params;
@@ -61,6 +63,13 @@ const PatientInfoScreen = ({ route, navigation }) => {
           <Text style={styles.value}> {patient.address}</Text>
         </View>
       </View>
+       
+
+       <TouchableOpacity style={styles.addRecordButton} 
+       onPress={() => navigation.navigate('AddRecord', { patientId: patient._id, patient: patient })}>
+        <Text style={styles.addRecordButtonText}>Add Records</Text>
+      </TouchableOpacity>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -109,6 +118,20 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#ddd',
   },
+  addRecordButton: {
+  backgroundColor: '#7bcef8ff',
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 8,
+  marginTop: 20,
+  alignItems: 'center',
+},
+addRecordButtonText: {
+  color: 'white',
+  fontWeight: '600',
+  fontSize: 16,
+}
+
 });
 
 export default PatientInfoScreen;

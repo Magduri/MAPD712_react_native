@@ -141,7 +141,7 @@ const AddPatientScreen = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.saveButton]}
             onPress={async () => { await handleSave(); 
-              navigation.navigate('PatientList');
+              navigation.navigate('PatientInfo', { patient: newPatient });
             }}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
@@ -158,11 +158,8 @@ const AddPatientScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   scrollContent: {
-    //flex: 1,
-    //backgroundColor: '#87d7f7ff',
     alignItems: 'center',
     paddingVertical: 20,
-    //justifyContent: 'center',
   },
   photoCircle: {
     width: 100,
