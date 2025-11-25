@@ -7,7 +7,6 @@ const RecordDetailsScreen = ({ route, navigation }) => {
   const { patient, patientId } = route.params || {};
   const { clinicaldata } = route.params || {};
 
-
   return (
     <View style={styles.container}>
       <View style={styles.form}>

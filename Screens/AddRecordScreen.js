@@ -17,18 +17,26 @@ const AddRecordScreen = ({ route, navigation }) => {
     }
 
     const [type, setType] = useState('');
+    const [systolic, setSystolic] = useState('');
+    const  [diastolic, setDiastolic] = useState('');
     const [value, setValue] = useState('');
 
     const handleSave = async () => {
-        if (!type || !value) {
-            Alert.alert('Validation Error', 'Please fill in all fields.');
-            return;
-        }
+        const recordValue = type === 'Blood Pressure' ? `${systolic}/${diastolic}` : value;
+    
+    console.log('Current states before validation:', { type, systolic, diastolic, value, calculatedRecordValue: recordValue }); // Add this for debug
+
+        if (!type || (type === 'Blood Pressure' && (!systolic || !diastolic)) || (type === 'Heart Rate' && !value)) 
+            { 
+                Alert.alert('Validation Error', 'Please fill in all fields.'); 
+                return; 
+            }
+
         // Save the record
         const newRecord = {
             patientId,
             type,
-            value,
+            value: recordValue
         };
 
         try {
@@ -42,7 +50,12 @@ const AddRecordScreen = ({ route, navigation }) => {
 
             if (response.ok) {
                 Alert.alert('Success', 'Record saved successfully!');
-                navigation.goBack(); // go back to previous screen
+                navigation.navigate('RecordDetails', { 
+                patient, 
+                patientId, 
+                clinicaldata: { type, value: recordValue } 
+            });
+                
             } else {
                 const errorData = await response.text();
                 console.error('Error saving record:', errorData);
@@ -53,7 +66,7 @@ const AddRecordScreen = ({ route, navigation }) => {
             Alert.alert('Error', 'Cannot reach server.');
         }
 
-        navigation.navigate('RecordDetails', { patient: patient, patientId: patientId, clinicaldata: { type, value } })
+       
     };
 
     return (
@@ -78,13 +91,38 @@ const AddRecordScreen = ({ route, navigation }) => {
                     <Text style={styles.typeText}>Heart Rate</Text>
                 </TouchableOpacity>
             </View>
-            <Text style={styles.label}>Value:</Text>
+
+            {type === 'Blood Pressure' ? (
+                <>
+                <Text style={styles.label}>Systolic:</Text>
+        <TextInput
+            style={styles.input}
+            value={systolic}
+            onChangeText={setSystolic}
+            placeholder="Enter systolic (top number)"
+            keyboardType="numeric" // Makes it numbers-only
+        />
+        <Text style={styles.label}>Diastolic:</Text>
+        <TextInput
+            style={styles.input}
+            value={diastolic}
+            onChangeText={setDiastolic}
+            placeholder="Enter diastolic (bottom number)"
+            keyboardType="numeric"
+            />
+                </>
+            ) : (
+                <>
+                 <Text style={styles.label}>Value:</Text>
             <TextInput
                 style={styles.input}
                 value={value}
                 onChangeText={setValue}
                 placeholder="Enter value"
             />
+                </>
+            )}
+
             <TouchableOpacity style={styles.saveButton}
                 onPress={async () => {
                     await handleSave();

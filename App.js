@@ -17,7 +17,7 @@ import RecordDetailsScreen from './Screens/RecordDetailsScreen';
 export default function App() {
 
   const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+  const Stack = createStackNavigator();
 
 const HomeStack = () => {
   return (
@@ -46,10 +46,10 @@ const PatientStack = () => {
 return (
   <NavigationContainer>
     <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="HomeTab" component={HomeStack} options={{ title: "Home"}}/>
+      <Tab.Screen name="HomeTab" component={HomeStack} options={{ unmountOnBlur: true }}/>
       <Tab.Screen name="PatientsTab" component={PatientStack} options={{ title: "Patients List"}}/>
     </Tab.Navigator>
-    </NavigationContainer>
+  </NavigationContainer>
   );
 
   
