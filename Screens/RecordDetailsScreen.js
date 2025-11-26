@@ -7,14 +7,13 @@ import { BACKEND_URL } from '../config';
 
 const RecordDetailsScreen = ({ route, navigation }) => {
   const { patient, patientId } = route.params || {};
-  //const { clinicaldata } = route.params || {};
   const recordData = route.params?.clinicaldata ?? {};
-
-
 
   //if clinicalData is not provided
   const classification = recordData.classification ?? 'Unknown';
   const isHigh = classification === 'High';
+  const isLow = classification === 'Low';
+  const isCritical = isHigh || isLow;
 
   return (
     <View style={styles.container}>
@@ -45,10 +44,15 @@ const RecordDetailsScreen = ({ route, navigation }) => {
 
         <View style={styles.statusContainer}>
           <Feather
-            name={isHigh ? 'alert-circle' : 'check-circle'}
+            name={isCritical? 'alert-circle' : 'check-circle'}
             size={22}
-            color={isHigh ? '#cc2424' : '#2ea44f'}
-            accessibilityLabel={isHigh ? 'High blood pressure' : 'Normal blood pressure'}
+            color={isCritical ? '#cc2424' : '#2ea44f'}
+           accessibilityLabel={
+          isLow 
+              ? 'Low blood pressure or heart rate' 
+              : isHigh 
+                  ? 'High blood pressure or heart rate' 
+                  : 'Normal'}
           />
           <Text style={[styles.value, { marginLeft: 8 }]}>
             {classification}
@@ -56,11 +60,6 @@ const RecordDetailsScreen = ({ route, navigation }) => {
         </View>
       </View>
 </View>
-
-      {/* <TouchableOpacity style={styles.addRecordButton} 
-       onPress={() => navigation.navigate('AddRecord', { patientId: patient._id, patient: patient })}>
-        <Text style={styles.addRecordButtonText}>Add Records</Text>
-      </TouchableOpacity> */}
 
       <StatusBar style="auto" />
     </View>

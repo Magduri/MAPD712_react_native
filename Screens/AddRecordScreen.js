@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, TextInput, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
 
+
 import { BACKEND_URL } from '../config';
 
 
@@ -25,22 +26,43 @@ const AddRecordScreen = ({ route, navigation }) => {
         const recordValue = type === 'Blood Pressure' ? `${systolic}/${diastolic}` : value;
 
         //validation
-        if (!type || (type === 'Blood Pressure' && (!systolic || !diastolic)) || (type === 'Heart Rate' && !value)) {
+        if (!type || (type === 'Blood Pressure' && (!systolic || !diastolic)) ||
+            (type !== 'Blood Pressure' && !value)) {
             Alert.alert('Validation Error', 'Please fill in all fields.');
             return;
         }
 
         //classification
-        const systolicNum = Number(systolic);
-        const diastolicNum = Number(diastolic);
+        let classification = "Unknown";
 
-        let classification;
+        if (type === 'Blood Pressure') {
+            const systolicNum = Number(systolic);
+            const diastolicNum = Number(diastolic);
 
-        if (systolicNum >= 140 || diastolicNum >= 90) {
-            classification = "High";
-        } else {
-            classification = "Normal";
+            //check for High
+            if (systolicNum >= 140 || diastolicNum >= 90) {
+                classification = "High";
+            }
+            //check for Low
+            else if (systolicNum <= 90 || diastolicNum <= 60) {
+                classification = "Low";
+            } else {
+                classification = "Normal";
+            }
         }
+        else if (type === "Heart Rate") {
+            const hrValue = Number(value);
+            // HR Classification: Over 120 bpm is defined as Critical/High
+            if (hrValue > 120) {
+                classification = "High";
+            } else {
+                classification = "Normal";
+            }
+        } else {
+            classification = "Unknown";
+        }
+
+
 
 
         // Save the record
@@ -62,7 +84,7 @@ const AddRecordScreen = ({ route, navigation }) => {
 
             if (response.ok) {
                 const saved = await response.json();
-                console.log("saved clinical data:",saved);
+                console.log("saved clinical data:", saved);
 
                 Alert.alert('Success', 'Record saved successfully!');
                 navigation.navigate('RecordDetails', {
@@ -92,6 +114,7 @@ const AddRecordScreen = ({ route, navigation }) => {
                 <Text> Name: </Text>
                 <Text style={styles.value}> {patient.firstName} {patient.lastName}</Text>
             </View>
+
             <Text>Record Type:</Text>
             <View style={styles.typeContainer}>
                 <TouchableOpacity
@@ -105,6 +128,18 @@ const AddRecordScreen = ({ route, navigation }) => {
                     onPress={() => setType('Heart Rate')}
                 >
                     <Text style={styles.typeText}>Heart Rate</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.typeButton, type === 'Respiratory Rate' && styles.typeButtonSelected]}
+                    onPress={() => setType('Respiratory Rate')}
+                >
+                    <Text style={styles.typeText}>Respiratory Rate</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.typeButton, type === 'Blood Oxygen Level' && styles.typeButtonSelected]}
+                    onPress={() => setType('Blood Oxygen Level')}
+                >
+                    <Text style={styles.typeText}>Blood Oxygen Level</Text>
                 </TouchableOpacity>
             </View>
 
@@ -134,7 +169,8 @@ const AddRecordScreen = ({ route, navigation }) => {
                         style={styles.input}
                         value={value}
                         onChangeText={setValue}
-                        placeholder="Enter value"
+                        placeholder={type ? `Enter ${type} value` : "Enter value"}
+                        keyboardType="numeric"
                     />
                 </>
             )}
@@ -176,17 +212,18 @@ const styles = StyleSheet.create({
         color: '#555',
     },
     typeContainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         marginBottom: 20,
     },
     typeButton: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: '#fff',
         borderColor: 'lightgray',
         borderWidth: 1,
         padding: 12,
         borderRadius: 8,
-        marginRight: 10,
+        marginRight: 0,
+        marginBottom: 10,
         alignItems: 'center',
     },
     typeButtonSelected: {
@@ -194,6 +231,7 @@ const styles = StyleSheet.create({
     },
     typeText: {
         fontWeight: '600',
+        color: '#555',
     },
     input: {
         height: 40,
@@ -219,5 +257,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+
 });
 export default AddRecordScreen;
