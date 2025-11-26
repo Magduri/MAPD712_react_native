@@ -1,14 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+
 
 import { BACKEND_URL } from '../config';
 
 const RecordDetailsScreen = ({ route, navigation }) => {
   const { patient, patientId } = route.params || {};
-  const { clinicaldata } = route.params || {};
+  //const { clinicaldata } = route.params || {};
+  const recordData = route.params?.clinicaldata ?? {};
+
+
+
+  //if clinicalData is not provided
+  const classification = recordData.classification ?? 'Unknown';
+  const isHigh = classification === 'High';
 
   return (
     <View style={styles.container}>
+
       <View style={styles.form}>
         <View style={styles.row}>
           <Text style={styles.label}> Name: </Text>
@@ -18,18 +28,36 @@ const RecordDetailsScreen = ({ route, navigation }) => {
 
         <View style={styles.row}>
           <Text style={styles.label}> Record Type: </Text>
-          <Text style={styles.value}> {clinicaldata.type}</Text>
+          <Text style={styles.value}> {recordData.type}</Text>
         </View>
         <View style={styles.divider} />
 
         <View style={styles.row}>
           <Text style={styles.label}> Value: </Text>
-          <Text style={styles.value}> {clinicaldata.value}</Text>
+          <Text style={styles.value}> {recordData.value}</Text>
+        </View>
+      
+      <View style={styles.divider} />
+
+      {/* Classification row with Feather icon */}
+      <View style={[styles.row, styles.classRow]}>
+        <Text style={styles.label}> Status: </Text>
+
+        <View style={styles.statusContainer}>
+          <Feather
+            name={isHigh ? 'alert-circle' : 'check-circle'}
+            size={22}
+            color={isHigh ? '#cc2424' : '#2ea44f'}
+            accessibilityLabel={isHigh ? 'High blood pressure' : 'Normal blood pressure'}
+          />
+          <Text style={[styles.value, { marginLeft: 8 }]}>
+            {classification}
+          </Text>
         </View>
       </View>
-       
+</View>
 
-       {/* <TouchableOpacity style={styles.addRecordButton} 
+      {/* <TouchableOpacity style={styles.addRecordButton} 
        onPress={() => navigation.navigate('AddRecord', { patientId: patient._id, patient: patient })}>
         <Text style={styles.addRecordButtonText}>Add Records</Text>
       </TouchableOpacity> */}
@@ -82,19 +110,10 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#ddd',
   },
-//   addRecordButton: {
-//   backgroundColor: '#7bcef8ff',
-//   paddingVertical: 10,
-//   paddingHorizontal: 20,
-//   borderRadius: 8,
-//   marginTop: 20,
-//   alignItems: 'center',
-// },
-// addRecordButtonText: {
-//   color: 'white',
-//   fontWeight: '600',
-//   fontSize: 16,
-// }
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
 
 });
 

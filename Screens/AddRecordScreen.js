@@ -18,25 +18,37 @@ const AddRecordScreen = ({ route, navigation }) => {
 
     const [type, setType] = useState('');
     const [systolic, setSystolic] = useState('');
-    const  [diastolic, setDiastolic] = useState('');
+    const [diastolic, setDiastolic] = useState('');
     const [value, setValue] = useState('');
 
     const handleSave = async () => {
         const recordValue = type === 'Blood Pressure' ? `${systolic}/${diastolic}` : value;
-    
-    console.log('Current states before validation:', { type, systolic, diastolic, value, calculatedRecordValue: recordValue }); // Add this for debug
 
-        if (!type || (type === 'Blood Pressure' && (!systolic || !diastolic)) || (type === 'Heart Rate' && !value)) 
-            { 
-                Alert.alert('Validation Error', 'Please fill in all fields.'); 
-                return; 
-            }
+        //validation
+        if (!type || (type === 'Blood Pressure' && (!systolic || !diastolic)) || (type === 'Heart Rate' && !value)) {
+            Alert.alert('Validation Error', 'Please fill in all fields.');
+            return;
+        }
+
+        //classification
+        const systolicNum = Number(systolic);
+        const diastolicNum = Number(diastolic);
+
+        let classification;
+
+        if (systolicNum >= 140 || diastolicNum >= 90) {
+            classification = "High";
+        } else {
+            classification = "Normal";
+        }
+
 
         // Save the record
         const newRecord = {
             patientId,
             type,
-            value: recordValue
+            value: recordValue,
+            classification
         };
 
         try {
@@ -49,13 +61,17 @@ const AddRecordScreen = ({ route, navigation }) => {
             });
 
             if (response.ok) {
+                const saved = await response.json();
+                console.log("saved clinical data:",saved);
+
                 Alert.alert('Success', 'Record saved successfully!');
-                navigation.navigate('RecordDetails', { 
-                patient, 
-                patientId, 
-                clinicaldata: { type, value: recordValue } 
-            });
-                
+                navigation.navigate('RecordDetails', {
+                    patient,
+                    patientId,
+                    //clinicaldata: { type, value: recordValue }
+                    clinicaldata: saved
+                });
+
             } else {
                 const errorData = await response.text();
                 console.error('Error saving record:', errorData);
@@ -66,7 +82,7 @@ const AddRecordScreen = ({ route, navigation }) => {
             Alert.alert('Error', 'Cannot reach server.');
         }
 
-       
+
     };
 
     return (
@@ -94,32 +110,32 @@ const AddRecordScreen = ({ route, navigation }) => {
 
             {type === 'Blood Pressure' ? (
                 <>
-                <Text style={styles.label}>Systolic:</Text>
-        <TextInput
-            style={styles.input}
-            value={systolic}
-            onChangeText={setSystolic}
-            placeholder="Enter systolic (top number)"
-            keyboardType="numeric" // Makes it numbers-only
-        />
-        <Text style={styles.label}>Diastolic:</Text>
-        <TextInput
-            style={styles.input}
-            value={diastolic}
-            onChangeText={setDiastolic}
-            placeholder="Enter diastolic (bottom number)"
-            keyboardType="numeric"
-            />
+                    <Text style={styles.label}>Systolic:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={systolic}
+                        onChangeText={setSystolic}
+                        placeholder="Enter systolic (top number)"
+                        keyboardType="numeric" // Makes it numbers-only
+                    />
+                    <Text style={styles.label}>Diastolic:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={diastolic}
+                        onChangeText={setDiastolic}
+                        placeholder="Enter diastolic (bottom number)"
+                        keyboardType="numeric"
+                    />
                 </>
             ) : (
                 <>
-                 <Text style={styles.label}>Value:</Text>
-            <TextInput
-                style={styles.input}
-                value={value}
-                onChangeText={setValue}
-                placeholder="Enter value"
-            />
+                    <Text style={styles.label}>Value:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={value}
+                        onChangeText={setValue}
+                        placeholder="Enter value"
+                    />
                 </>
             )}
 
