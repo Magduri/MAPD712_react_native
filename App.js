@@ -38,9 +38,7 @@ const PatientStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="PatientListScreen" component={PatientListScreen} options={{title: 'Patients List'}} />
       <Stack.Screen name="PatientRecords" component={PatientRecordsScreen} options={{title: 'Records'}} />
-{/* 
       <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient Info'}} />
-       */}
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
       <Stack.Screen name="AddRecord" component={AddRecordScreen} options={{title: 'Add Record'}} />
       <Stack.Screen name="RecordDetails" component={RecordDetailsScreen} options={{title: 'Record Details'}} />

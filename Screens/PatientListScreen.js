@@ -115,28 +115,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     marginBottom: 10,
-    marginTop: -40, // Adjust this based on your screen layout
+    marginTop: -40,
   },
-  
-  // 🟢 NEW: Style for the Icon
   searchIcon: {
     paddingLeft: 10,
     paddingRight: 5,
   },
-  
-  // 🟢 Updated Search Bar style to take remaining space
   searchBar: { 
-    flex: 1, // Allows TextInput to take the remaining width
+    flex: 1,
     paddingVertical: 10,
     paddingRight: 10,
     fontSize: 16,
   },
-  nameContainer: { // 🟢 NEW: Allows the name text to take up available space and be tappable
+  nameContainer: {
     flex: 1,
     marginRight: 10,
   },
   itemContainer: {
-    flexDirection: 'row',          // name and button side by side
+    flexDirection: 'row',         
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 12,
