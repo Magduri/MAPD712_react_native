@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import ViewButton from '../Components/ViewButton';
 import FabButton from '../Components/FabButton';
+import Feather from '@react-native-vector-icons/feather';
 
 
 import { BACKEND_URL } from '../config';  
@@ -13,6 +14,7 @@ import { BACKEND_URL } from '../config';
 const PatientListScreen = ({ navigation }) => { 
 
 const [patients, setPatients] = useState([]);
+const [searchPateient, setSearchPatient] = useState('');
 
 
 //useEffect(() => {
@@ -39,15 +41,21 @@ const [patients, setPatients] = useState([]);
     }, [])
   );
 
-//   fetchPatients();
-// }, []);
-
-
-
+//filter patient
+const filteredPatients = patients.filter(patient => {
+   const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase();
+          return fullName.includes(searchPateient.toLowerCase())
+})  
 
 const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
-      <Text style={styles.patientName}>{item.firstName} {item.lastName}</Text>
+      <TouchableOpacity 
+          style={styles.nameContainer}
+          onPress={() => navigation.navigate('PatientInfo', { patient: item })} 
+      >
+        <Text style={styles.patientName}>{item.firstName} {item.lastName}</Text>
+      </TouchableOpacity>
+
       <ViewButton
         onPress={() => navigation.navigate('PatientRecords', { patient: item })}
       />
@@ -56,12 +64,35 @@ const renderItem = ({ item }) => (
 
   return (
     <View style={styles.container}> 
-      <FlatList //render patient list
-        data={patients}
+
+    <View style={styles.searchContainer}>
+          <Feather 
+              name="search" 
+              size={20} 
+              color="#666" 
+              style={styles.searchIcon}
+          />
+          <TextInput
+              style={styles.searchBar}
+              placeholder="Search patient by name..."
+              value={searchPateient}
+              onChangeText={setSearchPatient}
+          />
+      </View>
+
+      <FlatList 
+        data={filteredPatients} // <-- Filtered list used here
         keyExtractor={(item) => item._id.toString()}
         renderItem={renderItem}
         contentContainerStyle={{ padding: 16 }}
       />
+
+      {/* <FlatList //render patient list
+        data={patients}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={renderItem}
+        contentContainerStyle={{ padding: 16 }}
+      /> */}
       <FabButton onPress={() => navigation.navigate('AddPatient')} />
       <StatusBar style="auto" />
     </View>
@@ -74,7 +105,35 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#87d7f7ff',
     paddingHorizontal: 16,
-    paddingTop: 100,
+    paddingTop: 50,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    marginBottom: 10,
+    marginTop: -40, // Adjust this based on your screen layout
+  },
+  
+  // 🟢 NEW: Style for the Icon
+  searchIcon: {
+    paddingLeft: 10,
+    paddingRight: 5,
+  },
+  
+  // 🟢 Updated Search Bar style to take remaining space
+  searchBar: { 
+    flex: 1, // Allows TextInput to take the remaining width
+    paddingVertical: 10,
+    paddingRight: 10,
+    fontSize: 16,
+  },
+  nameContainer: { // 🟢 NEW: Allows the name text to take up available space and be tappable
+    flex: 1,
+    marginRight: 10,
   },
   itemContainer: {
     flexDirection: 'row',          // name and button side by side
