@@ -49,7 +49,7 @@ const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.patientName}>{item.firstName} {item.lastName}</Text>
       <ViewButton
-        onPress={() => navigation.navigate('PatientInfo', { patient: item })}
+        onPress={() => navigation.navigate('PatientRecords', { patient: item })}
       />
     </View>
   );

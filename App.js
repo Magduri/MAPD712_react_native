@@ -7,9 +7,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './Screens/HomeScreen';
 import PatientInfoScreen from './Screens/PatientInfoScreen';
 import PatientListScreen from './Screens/PatientListScreen';
-import AddPatientScreen from './Screens/AddPatientScreen'; // Correct the casing to match the actual file name
+import AddPatientScreen from './Screens/AddPatientScreen'; 
 import AddRecordScreen from './Screens/AddRecordScreen';
 import RecordDetailsScreen from './Screens/RecordDetailsScreen';
+import PatientRecordsScreen from './Screens/PatientRecordsScreen';
 
 
 
@@ -35,7 +36,10 @@ const PatientStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="PatientListScreen" component={PatientListScreen} options={{title: 'Patients List'}} />
+      <Stack.Screen name="PatientRecords" component={PatientRecordsScreen} options={{title: 'Records'}} />
+{/* 
       <Stack.Screen name="PatientInfo" component={PatientInfoScreen} options={{title: 'Patient Info'}} />
+       */}
       <Stack.Screen name="AddPatient" component={AddPatientScreen} options={{title: 'Add Patient'}} />
       <Stack.Screen name="AddRecord" component={AddRecordScreen} options={{title: 'Add Record'}} />
       <Stack.Screen name="RecordDetails" component={RecordDetailsScreen} options={{title: 'Record Details'}} />
