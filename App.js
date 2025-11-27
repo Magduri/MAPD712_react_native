@@ -11,6 +11,7 @@ import AddPatientScreen from './Screens/AddPatientScreen';
 import AddRecordScreen from './Screens/AddRecordScreen';
 import RecordDetailsScreen from './Screens/RecordDetailsScreen';
 import PatientRecordsScreen from './Screens/PatientRecordsScreen';
+import CriticalPatientsScreen from './Screens/CriticalPatientsScreen';
 
 
 
@@ -46,12 +47,24 @@ const PatientStack = () => {
     </Stack.Navigator>
   );
 }
+
+const CriticalStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="CriticalList"  component={CriticalPatientsScreen} options={{ title: 'Critical Alerts' }} />
+     <Stack.Screen name="PatientRecords" component={PatientRecordsScreen} options={{title: 'Records'}} /> 
+      <Stack.Screen name="RecordDetails" component={RecordDetailsScreen} options={{title: 'Record Details'}} />
+      <Stack.Screen name="AddRecord" component={AddRecordScreen} options={{title: 'Add Record'}} />
+    </Stack.Navigator>
+  );
+}
   
 return (
   <NavigationContainer>
     <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="HomeTab" component={HomeStack} options={{ unmountOnBlur: true }}/>
-      <Tab.Screen name="PatientsTab" component={PatientStack} options={{ title: "Patients List"}}/>
+      <Tab.Screen name="Home" component={HomeStack} options={{ unmountOnBlur: true }}/>
+      <Tab.Screen name="Patients" component={PatientStack} options={{ title: "Patients List"}}/>
+      <Tab.Screen name="Critical" component={CriticalStack} options={{ title: "Critical Patients List"}}/>
     </Tab.Navigator>
   </NavigationContainer>
   );
