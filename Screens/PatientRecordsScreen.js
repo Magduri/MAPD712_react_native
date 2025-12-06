@@ -109,6 +109,7 @@ const PatientRecordsScreen = ({ route, navigation }) => {
                 <Text style={styles.noDataText}>No clinical data has been recorded for this patient.</Text>
             ) : (
                 <FlatList
+                    style={{ flex: 1 }}
                     data={records}
                     renderItem={renderRecordItem}
                     keyExtractor={item => item._id.toString()}
