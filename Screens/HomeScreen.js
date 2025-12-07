@@ -109,22 +109,6 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.appTitle}>Medicare</Text>
         <Text style={styles.subTitle}>Welcome back, Iffat</Text>
       </View>
-
-       {/* <View style={styles.searchContainer}>
-            <Feather name="search" size={20} color="#666" style={styles.searchIcon} />
-            <TextInput
-                style={styles.searchBar}
-                placeholder="Search patient by name..."
-                value={searchPatient}
-                onChangeText={setSearchPatient} 
-            />
-            {/* Clear button if text exists */}
-            {/* {searchPatient.length > 0 && (
-                <TouchableOpacity onPress={() => setSearchPatient('')}>
-                    <Feather name="x" size={20} color="#666" />
-                </TouchableOpacity>
-            )}
-        </View> */} 
       <SearchContainer 
           value={searchPatient} 
           onChangeText={setSearchPatient} 
@@ -192,25 +176,6 @@ const styles = StyleSheet.create({
     color: '#e1f5fe',
     marginTop: 5,
   },
-  // searchContainer: {
-  //   flexDirection: 'row',
-  //   backgroundColor: 'white',
-  //   borderRadius: 12,
-  //   padding: 12,
-  //   alignItems: 'center',
-  //   marginBottom: 15,
-  //   shadowColor: '#000',
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.1,
-  //   shadowRadius: 4,
-  //   elevation: 3,
-  // },
-  // searchBar: {
-  //   flex: 1,
-  //   fontSize: 16,
-  //   color: '#333',
-  //   marginLeft: 10,
-  // },
   sectionHeader: {
     marginBottom: 10,
   },

@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, Alert, Button } from 'react-native';
 import { useEffect, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import Feather from '@react-native-vector-icons/feather';
+import PatientRecordChart from '../Components/PatientRecordChart';
 
 
 import { BACKEND_URL } from '../config';
@@ -11,6 +12,7 @@ const PatientRecordsScreen = ({ route, navigation }) => {
     const { patient } = route.params;
     const patientId = patient._id;
     const [records, setRecords] = useState(null);
+    const [showChart, setShowChart] = useState(false);
 
     const fetchPatientRecords = async () => {
         setRecords(null);
@@ -45,6 +47,45 @@ const PatientRecordsScreen = ({ route, navigation }) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleTimeString('en-US', options);
     };
+
+// Convert DB records into Chart Data
+const getChartData = () => {
+        if (!records || records.length === 0) return null;
+
+        // Filter ONLY for "Blood Pressure" records that have both numbers
+        const bpRecords = records
+            .filter(r => r.type === 'Blood Pressure' && r.systolic && r.diastolic)
+            .slice(0, 6); // Top 6 most recent
+        
+        // Reverse chart reads Old -> New
+        const dataToChart = [...bpRecords].reverse();
+
+        if (dataToChart.length === 0) return null;
+
+        return {
+            labels: dataToChart.map(r => {
+                const d = new Date(r.measuredDateTime);
+                return `${d.getMonth()+1}/${d.getDate()}`;
+            }),
+            datasets: [
+                // Systolic (Upper number) - Red Color
+                {
+                    data: dataToChart.map(r => r.systolic),
+                    color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`, // Red
+                    strokeWidth: 2
+                },
+                // Diastolic (Lower number) - Blue Color
+                {
+                    data: dataToChart.map(r => r.diastolic),
+                    color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`, // Blue
+                    strokeWidth: 2
+                }
+            ],
+            legend: ["Systolic", "Diastolic"] 
+        };
+    };
+
+    // Render each record item
 
     const renderRecordItem = ({ item }) => {
         const isCritical = item.classification === 'High' || item.classification === 'Low';
@@ -115,6 +156,27 @@ const PatientRecordsScreen = ({ route, navigation }) => {
                     keyExtractor={item => item._id.toString()}
                 />
             )}
+
+            {/*The Button and The Chart */}
+            <View style={ styles.chartButton}>
+               <TouchableOpacity 
+                style={styles.chartButton} 
+                onPress={() => setShowChart(!showChart)}
+            >
+                <Text style={{ color: 'white', fontSize: 16 }}>
+                    {showChart ? "Hide Chart" : "Show Data"}
+                </Text>
+                </TouchableOpacity>
+                
+                {showChart && (
+                    <View style={{ marginTop: 10, alignItems: 'center' }}>
+                        <PatientRecordChart data={getChartData()} />
+                        <Text style={{fontSize: 12, color: 'gray', marginTop: 5}}>
+                            Showing recent Blood Pressure readings
+                        </Text>
+                    </View>
+                )}
+            </View>
         </View>
     );
 };
@@ -202,7 +264,14 @@ const styles = StyleSheet.create({
         marginTop: 50,
         fontSize: 16,
         color: '#333',
-    }
+    },
+    chartButton: {
+        backgroundColor: '#7bcef8ff',
+        padding: 4,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginBottom: 15,
+        elevation: 2,}
 });
 
 export default PatientRecordsScreen;
