@@ -131,7 +131,7 @@ const HomeScreen = ({ navigation }) => {
       ) : (
           <>
             <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>⚠️ Critical Attention Needed</Text>
+                <Text style={styles.sectionTitle}>⚠️ Attention Needed</Text>
             </View>
 
             {isLoading ? (

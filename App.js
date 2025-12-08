@@ -1,7 +1,11 @@
 
+import { AuthContext } from './AuthContext';
+import { useState, useMemo } from 'react';
+
 import { NavigationContainer } from '@react-navigation/native'; 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+
 
 
 import HomeScreen from './Screens/HomeScreen';
@@ -12,6 +16,7 @@ import AddRecordScreen from './Screens/AddRecordScreen';
 import RecordDetailsScreen from './Screens/RecordDetailsScreen';
 import PatientRecordsScreen from './Screens/PatientRecordsScreen';
 import CriticalPatientsScreen from './Screens/CriticalPatientsScreen';
+import LoginScreen from './Screens/LogInScreen';
 
 
 
@@ -57,18 +62,49 @@ const CriticalStack = () => {
     </Stack.Navigator>
   );
 }
-  
-return (
-  <NavigationContainer>
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="Home" component={HomeStack} options={{ unmountOnBlur: true }}/>
-      <Tab.Screen name="Patients" component={PatientStack} options={{ title: "Patients List"}}/>
-      <Tab.Screen name="Critical" component={CriticalStack} options={{ title: "Critical Patients List"}}/>
-    </Tab.Navigator>
-  </NavigationContainer>
-  );
 
+
+  //AUTH LOGIC 
+  const [userToken, setUserToken] = useState(null);
+
+  const authContext = useMemo(() => ({
+    signIn: () => {
+      setUserToken('fake-token'); 
+    },
+    signOut: () => {
+      setUserToken(null); 
+    },
+  }), 
+  []);
   
-  
+// return (
+//   <NavigationContainer>
+//     <Tab.Navigator screenOptions={{headerShown: false}}>
+//       <Tab.Screen name="Home" component={HomeStack} options={{ unmountOnBlur: true }}/>
+//       <Tab.Screen name="Patients" component={PatientStack} options={{ title: "Patients List"}}/>
+//       <Tab.Screen name="Critical" component={CriticalStack} options={{ title: "Critical Patients List"}}/>
+//     </Tab.Navigator>
+//   </NavigationContainer>
+//   );
+//}
+return (
+    <AuthContext.Provider value={authContext}>
+      <NavigationContainer>
+        {userToken === null ? (
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+          </Stack.Navigator>
+        ) : (
+          <Tab.Navigator screenOptions={{headerShown: false}}>
+            <Tab.Screen name="Home" component={HomeStack} options={{ unmountOnBlur: true }}/>
+            <Tab.Screen name="Patients" component={PatientStack} options={{ title: "Patients List"}}/>
+            <Tab.Screen name="Critical" component={CriticalStack} options={{ title: "Critical Patients List"}}/>
+          </Tab.Navigator>
+        )}
+      </NavigationContainer>
+    </AuthContext.Provider>
+  );
 }
+  
+
 
