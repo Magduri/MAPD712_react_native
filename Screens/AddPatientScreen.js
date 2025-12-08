@@ -263,10 +263,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   saveButton: {
-    backgroundColor: '#7bcef8ff',
+    backgroundColor: '#6495ED',
   },
   cancelButton: {
-    backgroundColor: '#7bcef8ff',
+    backgroundColor: '#6495ED',
   },
   buttonText: {
     color: 'white',

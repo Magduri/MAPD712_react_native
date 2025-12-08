@@ -194,12 +194,16 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     addRecordButton: {
-        backgroundColor: '#7bcef8ff',
+        backgroundColor: '#6495ED',
         padding: 12,
         borderRadius: 8,
         alignItems: 'center',
         marginBottom: 15,
         elevation: 2,
+        shadowColor: '#483D8B',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
     },
     addRecordButtonText: {
         color: 'white',
@@ -266,12 +270,13 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     chartButton: {
-        backgroundColor: '#7bcef8ff',
+        backgroundColor: '#6495ED',
         padding: 4,
         borderRadius: 8,
         alignItems: 'center',
         marginBottom: 15,
-        elevation: 2,}
+        elevation: 2,
+}
 });
 
 export default PatientRecordsScreen;

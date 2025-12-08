@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         alignSelf: 'center',
-        backgroundColor: '#7bcef8ff',
+        backgroundColor: '#6495ED',
     },
     saveButtonText: {
         color: 'white',

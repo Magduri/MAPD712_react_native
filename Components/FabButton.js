@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     bottom: 30,
     right: 30,
-    backgroundColor: '#7bcef8ff',
+    backgroundColor: '#6495ED',
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',

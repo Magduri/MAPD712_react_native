@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
   addRecordButton: {
-  backgroundColor: '#7bcef8ff',
+  backgroundColor: '#6495ED',
   paddingVertical: 10,
   paddingHorizontal: 20,
   borderRadius: 8,

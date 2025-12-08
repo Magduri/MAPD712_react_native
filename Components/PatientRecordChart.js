@@ -16,9 +16,9 @@ const PatientRecordChart = ({ data }) => {
   const chartConfig = {
     backgroundGradientFrom: "#ffffff",
     backgroundGradientTo: "#ffffff",
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Default color
-    strokeWidth: 2, // Make the lines a bit thicker
-    decimalPlaces: 0, // No decimals (BP is always whole numbers)
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, 
+    strokeWidth: 2, 
+    decimalPlaces: 0, 
   };
 
   return (
@@ -29,7 +29,7 @@ const PatientRecordChart = ({ data }) => {
         height={220}
         chartConfig={chartConfig}
         bezier
-        fromZero={false} // Blood Pressure can be low, so don't force zero baseline
+        fromZero={false} 
       />
     </View>
   );

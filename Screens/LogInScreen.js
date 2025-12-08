@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../AuthContext'; 
 
 const LoginScreen = () => {
@@ -11,7 +11,10 @@ const LoginScreen = () => {
       <TextInput style={styles.input} placeholder="Email " />
       <TextInput style={styles.input} placeholder="Password " secureTextEntry />
       
-      <Button title="Login" onPress={() => signIn()} /> 
+      {/* <Button title="Login" onPress={() => signIn()} />  */}
+      <TouchableOpacity style={styles.loginButton} onPress={() => signIn()}>
+   <Text style={styles.loginButtonText}>LOG IN</Text>
+</TouchableOpacity>
     </View>
   );
 };
@@ -37,7 +40,26 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10, 
     marginBottom: 15 
-}
+},
+loginButton: {
+    backgroundColor: '#6495ED', 
+    paddingVertical: 15,        
+    borderRadius: 30,           
+    alignItems: 'center',       
+    marginTop: 20,             
+    elevation: 5,               
+    shadowColor: '#483D8B',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  
+  loginButtonText: {
+    color: 'white',             
+    fontSize: 18,               
+    fontWeight: 'bold',         
+    letterSpacing: 1,           
+  }
 });
 
 export default LoginScreen;
