@@ -1,6 +1,7 @@
+import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Feather from '@expo/vector-icons/Feather';
+import { StyleSheet, Text, View } from 'react-native';
+//import Feather from '@expo/vector-icons/Feather';
 
 
 import { BACKEND_URL } from '../config';

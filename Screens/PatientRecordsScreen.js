@@ -1,8 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, Alert, Button } from 'react-native';
-import { useEffect, useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import Feather from '@react-native-vector-icons/feather';
+import { Feather } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
+import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+//import Feather from '@react-native-vector-icons/feather';
 import PatientRecordChart from '../Components/PatientRecordChart';
 
 
@@ -164,14 +163,14 @@ const getChartData = () => {
                 onPress={() => setShowChart(!showChart)}
             >
                 <Text style={{ color: 'white', fontSize: 16 }}>
-                    {showChart ? "Hide Chart" : "Show Data"}
+                    {showChart ? "Hide Chart" : "Show Chart"}
                 </Text>
                 </TouchableOpacity>
                 
                 {showChart && (
                     <View style={{ marginTop: 10, alignItems: 'center' }}>
                         <PatientRecordChart data={getChartData()} />
-                        <Text style={{fontSize: 12, color: 'gray', marginTop: 5}}>
+                        <Text style={{fontSize: 12, color: 'white', marginTop: 5}}>
                             Showing recent Blood Pressure readings
                         </Text>
                     </View>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import Feather from '@react-native-vector-icons/feather';
+import { Feather } from '@expo/vector-icons';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+//import Feather from '@react-native-vector-icons/feather';
 
 const SearchContainer = ({ value, onChangeText, onClear }) => {
     //const [searchPatient, setSearchPatient] = React.useState('');

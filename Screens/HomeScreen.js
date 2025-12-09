@@ -1,13 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { useState, useCallback } from 'react';
+import { Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import Feather from '@react-native-vector-icons/feather';
-import FabButton from '../Components/FabButton'; 
-import ViewButton from '../Components/ViewButton';
+import { StatusBar } from 'expo-status-bar';
+import { useCallback, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+//import Feather from '@react-native-vector-icons/feather';
+import FabButton from '../Components/FabButton';
 import SearchContainer from '../Components/SearchContainer';
+import ViewButton from '../Components/ViewButton';
 
-import { BACKEND_URL } from '../config'; 
+import { BACKEND_URL } from '../config';
 
 const HomeScreen = ({ navigation }) => {
   const [searchPatient, setSearchPatient] = useState('');

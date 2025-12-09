@@ -1,8 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, Alert } from 'react-native';
-import { useEffect, useState, useCallback } from 'react';
+import { Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import Feather from '@react-native-vector-icons/feather';
+import { useCallback, useState } from 'react';
+import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+//import Feather from '@react-native-vector-icons/feather';
 
 import { BACKEND_URL } from '../config';
 

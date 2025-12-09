@@ -1,10 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useState } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Ionicons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native';
-import { KeyboardAvoidingView, Platform } from 'react-native';
 
 import { BACKEND_URL } from '../config';
 
@@ -96,7 +93,7 @@ const AddPatientScreen = ({ navigation }) => {
           <TextInput style={styles.input} value={lastName} onChangeText={setLastName} placeholder='Enter last name' />
 
           <Text>Date of Birth:</Text>
-          <TouchableOpacity style={styles.dateBox} onPress={showDatePicker}>
+          <TouchableOpacity style={styles.dateBox} testID="date-picker-button" onPress={showDatePicker}>
             <Text style={styles.dateText}>
               {dateOfBirth
                 ? `${(dateOfBirth.getMonth() + 1).toString().padStart(2, '0')}/${dateOfBirth.getDate().toString().padStart(2, '0')}/${dateOfBirth.getFullYear()}`
@@ -140,9 +137,7 @@ const AddPatientScreen = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.saveButton]}
-            onPress={async () => { await handleSave(); 
-              navigation.navigate('PatientInfo', { patient: newPatient });
-            }}>
+            onPress={handleSave}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
 
